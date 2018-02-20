@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;"/>
+    <title>Arch Mac</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body id="home">
+    <main>
+      <div>
+        <img src="archmac logo no text.png"></img>
+	<pre><code># Warning: things may unexpectedly break. Requirements: macOS Sierra or above.
+curl -o /tmp/snapshot.tar.gz https://download.archmac.org/snapshots/archmac-snapshot-20180220194509.tar.gz
+echo '20436b3984139c96590609ee136f2ef8fcb65d8096c1f21adc0aac3668ad43cc  /tmp/snapshot.tar.gz' | shasum -a 256 -c -
+sudo tar -C / -xvpzf /tmp/snapshot.tar.gz
+echo 'export PATH="/opt/arch/bin:/opt/arch/sbin:$PATH"' >> ~/.archrc
+echo 'source ~/.archrc' >> ~/.bash_profile
+source ~/.archrc
+sudo pacman -Syu</code></pre>
+      </div>
+    </main>
+    <footer>
+      <a href='https://github.com/archmac'>github.com/archmac</a>
+    </footer>
+  </body>
+</html>
