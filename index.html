@@ -10,18 +10,147 @@
     <main>
       <div>
         <img src="archmac logo no text.png"></img>
-	<pre><code># Warning: things may unexpectedly break. Requirements: macOS Sierra or above.
-curl -o /tmp/snapshot.tar.gz https://download.archmac.org/snapshots/archmac-snapshot-20180220194509.tar.gz
-echo '20436b3984139c96590609ee136f2ef8fcb65d8096c1f21adc0aac3668ad43cc  /tmp/snapshot.tar.gz' | shasum -a 256 -c -
-sudo tar -C / -xvpzf /tmp/snapshot.tar.gz
-echo 'export PATH="/opt/arch/bin:/opt/arch/sbin:$PATH"' >> ~/.archrc
-echo 'source ~/.archrc' >> ~/.bash_profile
-source ~/.archrc
-sudo pacman -Syu</code></pre>
+        <h1>
+          Arch Mac
+        </h1>
+        <div>
+          A simple and tried package manager for macOS
+        </div>
+
+        <section>
+          <h2>
+            Install Arch Mac
+          </h2>
+<pre>
+<code class='comment'># Download the current snapshot</code>
+<code class='command'>curl -o /tmp/snapshot.tar.gz https://download.archmac.org/snapshots/archmac-snapshot-20180220194509.tar.gz</code>
+<code class='comment'># Check snapshot integrity</code>
+<code class='command'>echo '20436b3984139c96590609ee136f2ef8fcb65d8096c1f21adc0aac3668ad43cc  /tmp/snapshot.tar.gz' | shasum -a 256 -c -</code>
+<code class='comment'># Extract snapshot into /opt/arch</code>
+<code class='command'>sudo tar -C / -xvpzf /tmp/snapshot.tar.gz</code>
+<code class='comment'># Extend path for your shell</code>
+<code class='command'>echo 'export PATH="/opt/arch/bin:/opt/arch/sbin:$PATH"' >> ~/.archrc</code>
+<code class='command'>echo 'source ~/.archrc' >> ~/.bash_profile</code>
+<code class='comment'># And use it right in your currently running shell</code>
+<code class='command'>source ~/.archrc</code>
+<code class='command'>sudo pacman -Syu</code>
+<code class='comment'># You're up to date and ready to roll!</code>
+</pre>
+        </section>
+
+        <section>
+          <h2>Use Arch Mac</h2>
+          If you have used Arch Linux previously you will find yourself right at home! Otherwise, here is a quick rundown.
+
+          <div class='example'>
+              <div class='desc code'>
+                  Synchronize repos
+              </div>
+              <pre><code class='command'>sudo pacman -Sy</code></pre>
+          </div>
+
+          <div class='example'>
+              <div class='desc code'>
+                  Search for packages
+              </div>
+              <pre><code class='command'>sudo pacman -Ss git</code></pre>
+          </div>
+
+          <div class='example'>
+              <div class='desc code'>
+                  Install packages
+              </div>
+              <pre><code class='command'>sudo pacman -S git</code></pre>
+          </div>
+
+          <div class='example'>
+              <div class='desc'>
+                  Arch Mac tries hard to stay out of the way and install everything under its prefix <code>/opt/arch</code>. Nonetheless, some files may go in the idiomatic to macOS places dedicated to non-system provided software such as <code>/Library/LaunchDaemons</code> and <code>/Library/Extensions</code> when necessary. This means that installing daemons like redis will have them started on system boot – not user login – by launchd at your convenience, or that openvpn works out of the box since it will pull the package containing tuntap kexts!
+              </div>
+          </div>
+
+          <div class='example'>
+              <div class='desc code'>
+                  Update installed packages
+              </div>
+              <pre><code class='command'>sudo pacman -Su</code></pre>
+          </div>
+
+          <div class='example'>
+              <div class='desc code'>
+                  Create a package
+              </div>
+              <pre><code class='command'>mkdir foo</code>
+<code class='command'>vim PKGBUILD</code></pre>
+          </div>
+
+          <div class='example'>
+              <div class='desc code'>
+                  <code>PKGBUILD</code> files are just shell scripts
+              </div>
+<pre>pkgname=foo
+pkgver=1.2.3
+pkgrel=1
+desc="A sample package"
+url="https://example.com/"
+arch=(x86_64)
+source=(
+    "https://example.com/foo/foo-${pkgver}.tar.gz"
+)
+sha256sums=(
+    e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+)
+build() {
+  cd "${srcdir}"
+  ./configure --prefix=/opt/arch
+  make DESTDIR="${pkgdir}"
+}
+package() {
+  cd "${srcdir}"
+  make install DESTDIR="${pkgdir}"
+}
+</pre>
+          </div>
+
+          <div class='example'>
+              <div class='desc code'>
+                  Build and install the package
+              </div>
+              <pre><code class='command'>makepkg</code>
+<code class='command'>sudo pacman -U foo-1.2.3-1-x86_64.pkg.tar.gz</code></pre>
+          </div>
+
+          <div class='example'>
+              <div class='desc'>
+                  Since Arch Mac is placed into a non-default path – like <code>/usr/local</code> is – packaged libraries won't be linked to by accident, so it is safe to install libraries provided natively by macOS. This means though that when installing third-party libraries unaware of Arch Mac, like native gems, you may need to manually set some paths – e.g with <code>CFLAGS</code> or <code>LDFLAGS</code>.
+              </div>
+          </div>
+        </section>
+
+        <section>
+            <h2>Goals</h2>
+            <div class='desc'>
+                Arch Mac delivers binary packages, saving you from tedious compilations and variance from system to system.
+                <p>
+                Its package builder runs as a regular user to isolate build and package steps, yet its package manager runs as root, in order to provide true daemon and multi-user support and an outstanding out of the box experience.
+                <p>
+                The selected install location leaves <code>/usr/local</code> free to use by yourself or other third party applications, which regularly place support scripts and commands in that location, thus preventing mixing managed files together with unmanaged ones.
+                <p>
+                Arch Mac aims to provide additional security by leveraging pacman's PGP support to sign binary packages and repo files.
+            </div>
+        </section>
+
+        <section>
+            <h2>Contribute to Arch Mac</h2>
+            <a href='https://gitlab.com/archmac'>gitlab.com/archmac</a>
+        </section>
       </div>
     </main>
+
     <footer>
-      <a href='https://github.com/archmac'>github.com/archmac</a>
+        Arch Mac (née Arch OS X) was initiated by Loic Nageleisen in August 2008.
+        <br>
+        Use of the Arch <a href='https://wiki.archlinux.org/index.php/DeveloperWiki:TrademarkPolicy'>trademark</a> and logo used with kind permission of Arch Linux's <a href='mailto:aaron@archlinux.org'>Aaron Griffin</a>.
     </footer>
   </body>
 </html>
