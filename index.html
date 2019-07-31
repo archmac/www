@@ -23,9 +23,9 @@
           </h2>
 <pre>
 <code class='comment'># Download the current snapshot</code>
-<code class='command'>curl -o /tmp/snapshot.tar.gz https://download.archmac.org/snapshots/archmac-snapshot-20180220194509.tar.gz</code>
+<code class='command'>curl -o /tmp/snapshot.tar.gz https://archmac.fra1.cdn.digitaloceanspaces.com/snapshots/archmac-snapshot-20190731182626.tar.gz</code>
 <code class='comment'># Check snapshot integrity</code>
-<code class='command'>echo '20436b3984139c96590609ee136f2ef8fcb65d8096c1f21adc0aac3668ad43cc  /tmp/snapshot.tar.gz' | shasum -a 256 -c -</code>
+<code class='command'>echo 'd6b04d7708458283b91bb0ace5648f0324e89ca3ec2f6cdba49267e39969540e  /tmp/snapshot.tar.gz' | shasum -a 256 -c -</code>
 <code class='comment'># Extract snapshot into /opt/arch</code>
 <code class='command'>sudo tar -C / -xvpzf /tmp/snapshot.tar.gz</code>
 <code class='comment'># Extend path for your shell</code>
